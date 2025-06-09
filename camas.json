@@ -1,0 +1,162 @@
+ {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [ -122.31189, 47.65647 ],
+          "status": "One or few camas"
+        },
+        "properties": {
+          "plant_type": "<i>Toxicoscordion venenosum</i> (death camas)",
+          "notes": "Growing alone in a skinny bed of mulch, nothing else growing in planter",
+          "status": "One or few camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.310900, 47.659993 ]
+        },
+        "properties": {
+          "plant_type": "<i>C. quamash</i> (common camas), <i>C. leichtlinii</i> (great camas), and <i>Toxicoscordion venenosum</i> (death camas)",
+          "notes": "Burke Meadow, variety of three camas species, higher concentration within the baskets, younger plants overall",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.299657, 47.654845]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Growing along skinny planter outside the Husky Ballpark, fairly larger plants",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.307738, 47.650829]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Burke Gilman SER Site, many, more mature plants, most within basket, along the Burke Gilman trail",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.307521, 47.658598]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Southwest of Founders Hall, native planters surrounding Founders Hall, finished construction in 2023",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.307427, 47.658963]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Northwest of Founders Hall, native planters surrounding Founders Hall, finished construction in 2023",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.306572, 47.656658]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Native planters southeast of Smith Hall",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.296134, 47.656098]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Union Bay Natural Area, growing along north side of NE Wahkiakum Lane, dense with some other plant species too",
+          "status": "Lots of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.305786, 47.652525]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Growing underneath and around oak tree in English ivy planter in front of Roberts Hall",
+          "status": "Handful of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.308636, 47.648014]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Close to building, south of 3600 Ferry Pl NE",
+          "status": "Handful of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.308935, 47.651570]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Southeast of the Life Sciences Building's Greenhouse, near walkway",
+          "status": "Handful of camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.308225, 47.656337]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Southwest of Gowen Hall, along walkway in triange-shaped planter on southwest side of path",
+          "status": "One or few camas"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-122.308316, 47.659384]
+        },
+        "properties": {
+          "plant_type": "<i>Camassia</i> spp.",
+          "notes": "Near Paccar SER Site, northeast of Paccar Hall",
+          "status": "Handful of camas"
+        }
+      }
+    ]
+  }
