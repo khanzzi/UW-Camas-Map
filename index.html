@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UW Camas Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <!-- MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+
+   
+
+    <style>
+
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        #title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 12px 24px;
+            font-size: 18px;
+            z-index: 1000;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        #contact-box {
+            position: absolute;
+            bottom: 20px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        #email-icon {
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        #contact-form {
+            display: none;
+            position: absolute;
+            bottom: 50px;
+            right: 0;
+            background: white;
+            padding: 10px;
+            width: 200px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        #contact-box:hover #contact-form {
+            display: block;
+        }
+
+        #contact-form input,
+        #contact-form textarea {
+            width: 100%;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        #contact-form button {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #camas-info {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px;
+            width: 300px;
+            height: 400px;
+            overflow-y: scroll;
+            font-size: 14px;
+            z-index: 1000;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        #title {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 6px 12px;
+            font-size: 18px;
+            z-index: 1000;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer; /* makes it look clickable */
+            transition: all 0.2s ease;
+        }
+
+            #title:hover {
+                text-decoration: underline;
+                background: #f0f0f0;
+            }
+
+
+            /* important the the position of the overall box (if you need one) is relative 
+                and the others aren't to ensure they don't overrule the box css */
+        #box {
+            width: 100%;
+            height: 100vh;
+            position: relative
+        }
+
+        #search-container {
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            width: 250px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            padding: 10px;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        #search-results {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        camas
+            #search-results li {
+                cursor: pointer;
+                padding: 5px;
+                border-bottom: 1px solid #ccc;
+            }
+
+                #search-results li:hover {
+                    background-color: #f0f0f0;
+                }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="title">UW Camas Map</div>
+        <div id="camas-info">
+            <header>
+                <h1>Camas (<i>Camassia</i>)</h1>
+                <p>A non-exhaustive geographic representation and compilation of the observed camas plants on the University of Washington campus in Seattle.</p>
+            </header>
+
+            <section id="description">
+                <h1></h1>
+            </section>
+
+            <section id="description2">
+                <h2>Description </h2>
+                <p>It is the Meadow Team's mission to re-indigenize landscapes across the Pacific Northwest plant by plant, story by story, person by person. Established in the late 2010s, the Meadow Team collaborates with the Burke Museum to steward the Meadow and its beings located southeast of the museum.</p>
+            </section>
+
+            <section id="taxonomy">
+                <h2>Taxonomy</h2>
+                <p><i>Camassia</i> encompasses the genus of camas. The two species of <i>Camassia</i> grown in the Burke Meadow are <i>C. quamash</i> (common camas) and <i>C. leichtlinii</i> (great camas) along with a third type of camas called <i>Toxicoscordion venenosum</i> (death camas).</p>
+            </section>
+
+            <section id="distribution">
+                <h2>Distribution and Habitat</h2>
+                <p>Native to the Pacific Northwest region as well as other parts of the west coast and even inland as far as the Rocky Mountains, <i>Camassia</i> favors moister, open meadow ecosystems at low to mid elevation levels.</p>
+            </section>
+
+            <footer>
+                <p>For more information, visit <a href="https://www.burkemuseum.org/exhibits/landscape-native-plants" target="_blank">Burke Museum - Landscape and Native Plants</a>.</p>
+            </footer>
+        </div>
+        <div id="search-container">
+            <form id="search-form">
+                <input type="text" id="property-search" placeholder="Search camas points..." />
+            </form>
+            <ul id="search-results"></ul>
+        </div>
+        <label style="position:absolute; top:90px; left:10px; z-index:1000; background:white; padding:6px; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+            <input type="checkbox" id="cluster-toggle" checked>
+            Use Marker Clustering
+        </label>
+        <div id="map"></div>
+    </div>
+
+    <!-- Load the javascript libraries you're going to be using'-->
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <!-- MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <script>
+        // Initialize the map and define the center and zoom (higher is more zoomed in)
+        // "L" is the global namespace object
+        const map = L.map('map').setView([47.654902, -122.304581], 12); // Seattle
+
+        // Base layers
+        //You only need one (or I suppose non if you're weird)
+        //but here I am defining the variables for more to add a toggle between them
+        const streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        });
+
+        const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; OpenTopoMap contributors'
+        });
+
+        //the "addTo(map)", as you might guess is the one that is displayed by default
+        const CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        //token needed to use mapbox layers
+        var mapboxAccessToken = "pk.eyJ1IjoidGhlaGVsbG9tYXJ0aWFuIiwiYSI6ImNsMDc1NXBuazF6bXczZXJzd2ZseXB4MDgifQ.gQNA94PswehVHrpv6cBBSw";
+
+
+        const mapbox = L.tileLayer(`https://api.mapbox.com/styles/v1/thehellomartian/cmalih03v013d01sn5wk711jv/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`, {
+            attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: mapboxAccessToken
+        })
+
+        // Layer control
+        const baseMaps = {
+            "Gray": CartoDB_Positron,
+            "Streets": streets,
+            "Topographic": topo,
+            "Mapbox": mapbox
+            
+        };
+
+
+
+
+        //initialize the variables
+        let camasData, normalLayer, clusterLayer;
+
+        //this just creates the two layers so you can either have them clustered or not
+        function createCamasLayer(data, clustered) {
+
+            const geoJsonLayer = L.geoJSON(data, {
+                onEachFeature: function (feature, layer) {
+                    const props = feature.properties; //similar to the attributes in shapefiles
+                    const coords = layer.getLatLng();
+                    const googleMapsUrl = `https://www.google.com/maps/place/${coords.lat},${coords.lng}`; //defines the link for the location based on the format of google maps links
+                    const popup = `
+                        <strong>${props.plant_type}</strong><br>
+                            ${props.notes}<br><br>
+                            ${props.image ? `<img src="${props.image}" alt="Camas image" style="width:100%;max-width:200px;"><br><br>` : ''}
+                            <a href="${googleMapsUrl}" target="_blank">${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}</a>
+                            `;
+                    layer.bindPopup(popup); //defines the popup that will show up when the point is clicked
+                },
+                pointToLayer: function (feature, latlng) {
+                    let size;
+
+                    //this looks at the status (a known property of the geojson) 
+                    // and defines a size and color for the different groups
+                    switch (feature.properties.status) {
+                        case 'One or few camas':
+                            size= 6;
+                            color= 'yellow';
+                            break;
+                        case 'Handful of camas':
+                            size= 8;
+                            color= '#8BC34A';
+                            break;
+                        case 'Lots of camas':
+                            size= 10;
+                            color= 'green';
+                            break;
+                        default:
+                            size = 6;
+                            color = 'grey';
+                    }
+
+                    //the marker has a number of different properties you can either statically define or define based on properties of the data
+                    return L.circleMarker(latlng, {
+                        radius: size,
+                        fillColor: color,
+                        color: '#333', //outline color
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    });
+
+                }
+            });
+
+            if (clustered) {
+                const clusterGroup = L.markerClusterGroup();
+                clusterGroup.addLayer(geoJsonLayer);
+                return clusterGroup;
+            } else {
+                return geoJsonLayer;
+            }
+        }
+
+        fetch('camas.json') //fetch is used to load the geojson layers
+            .then(res => res.json())
+            .then(data => {
+                camasData = data;
+
+                //this until "end section on search" is all code to search the features and their properties
+                const searchInput = document.getElementById('property-search');
+                const searchResults = document.getElementById('search-results');
+
+                let hoverMarker = null;
+
+                document.getElementById('search-form').addEventListener('submit', function (e) {
+                    e.preventDefault(); // prevent page reload
+                    const query = searchInput.value.toLowerCase(); //make sure it's lowercase so all results show
+                    searchResults.innerHTML = '';
+
+                    if (hoverMarker) {
+                        map.removeLayer(hoverMarker);
+                        hoverMarker = null;
+                    }
+
+                    if (!query) return; //stop this whole process if nothing is typed
+
+                    const matchedBounds = L.latLngBounds([]); //get the coordinates of the features included in the search
+                    const currentBounds = map.getBounds();
+                    let anyOutside = false;
+
+                    camasData.features.forEach((feature, i) => {
+                        const props = feature.properties;
+                        const coords = feature.geometry.coordinates;
+                        const latlng = L.latLng(coords[1], coords[0]);
+
+                        const allProps = Object.values(props).join(' ').toLowerCase();
+
+                        if (allProps.includes(query)) {
+                            matchedBounds.extend(latlng);
+
+                            if (!currentBounds.contains(latlng)) {
+                                anyOutside = true;
+                            }
+
+                            //define what the search results look like
+                            const li = document.createElement('li');
+                            li.textContent = `${props.plant_type || 'Unknown'}; ${props.notes || ''}; (${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)})`;
+
+                            li.addEventListener('click', () => {
+                                map.setView(latlng, 18);
+                                const popupContent = `
+                    <strong>${props.plant_type}</strong><br>
+                    ${props.notes || ''}<br><br>
+                    ${props.image ? `<img src="${props.image}" style="width:100%;max-width:200px;">` : ''}
+                `;
+                                L.popup().setLatLng(latlng).setContent(popupContent).openOn(map);
+                            });
+
+                            //make the marker blue and large when you hover over search results
+                            li.addEventListener('mouseenter', () => {
+                                if (hoverMarker) map.removeLayer(hoverMarker);
+                                hoverMarker = L.circleMarker(latlng, {
+                                    radius: 14,
+                                    color: '#000',
+                                    fillColor: 'cyan',
+                                    fillOpacity: 0.7,
+                                    weight: 2
+                                }).addTo(map);
+                            });
+
+                            li.addEventListener('mouseleave', () => {
+                                if (hoverMarker) {
+                                    map.removeLayer(hoverMarker);
+                                    hoverMarker = null;
+                                }
+                            });
+
+                            searchResults.appendChild(li);
+                        }
+                    });
+
+                    // Fit to bounds only if at least one point is outside current view
+                    if (matchedBounds.isValid()) {
+                        const currentBounds = map.getBounds();
+
+                        const anyOutside = matchedBounds.getNorthEast().lat > currentBounds.getNorthEast().lat ||
+                            matchedBounds.getNorthEast().lng > currentBounds.getNorthEast().lng ||
+                            matchedBounds.getSouthWest().lat < currentBounds.getSouthWest().lat ||
+                            matchedBounds.getSouthWest().lng < currentBounds.getSouthWest().lng;
+
+                        if (anyOutside) {
+                            map.fitBounds(matchedBounds, { padding: [50, 50] });
+                        }
+                    }
+                });
+
+                //end section on search
+                //similar to the basemaps, we define both layers and then only add one to the map
+                clusterLayer = createCamasLayer(camasData, true); 
+                normalLayer = createCamasLayer(camasData, false);
+
+                clusterLayer.addTo(map); // default view is clustered
+
+                // Toggle control
+                //in the CSS and html, we defined an element with an ID of 'cluster-toggle'
+                //We are adding a listener to it so the map knows to change the layer when something in the toggle changes
+                document.getElementById('cluster-toggle').addEventListener('change', function () {
+                    if (this.checked) {
+                        map.removeLayer(normalLayer);
+                        map.addLayer(clusterLayer);
+                    } else {
+                        map.removeLayer(clusterLayer);
+                        map.addLayer(normalLayer);
+                    }
+                });
+
+                const overlays = {
+                    "Camas Plants (clustered)": clusterLayer,
+                    "Camas Plants (normal)": normalLayer
+                };
+                L.control.layers(baseMaps, overlays).addTo(map); //this is the control for the basemaps and the layers in the top right
+            })
+            .catch(err => console.error('Error loading GeoJSON:', err));
+        L.control.scale().addTo(map);
+
+        //Legend stuff 
+        const legend = L.control({ position: 'bottomleft' });
+
+        //define the groups and symbols for the legend
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'info legend');
+            const statuses = ['small', 'medium', 'large', 'unknown'];
+            const labels = {
+                small: 'One or few camas',
+                medium: 'Handful of camas',
+                large: 'Lots of camas',
+                unknown: 'Unknown'
+            };
+            const colors = {
+                small: 'yellow',
+                medium: '#8BC34A',
+                large: 'green',
+                unknown: 'grey'
+            };
+            const sizes = {
+                small: 6,
+                medium: 8,
+                large: 10,
+                unknown: 6
+            };
+
+            div.innerHTML += '<strong>Size</strong><br>';
+            statuses.forEach(status => {
+                const color = colors[status];
+                const size = sizes[status];
+                //add the html for the legend to the legend html box
+                div.innerHTML += `
+            <svg width="20" height="20" style="vertical-align: middle; margin-right: 5px;">
+                <circle cx="10" cy="10" r="${size}" fill="${color}" stroke="#333" stroke-width="1" />
+            </svg>
+            ${labels[status]}<br>`;
+            });
+
+            return div;
+        };
+
+        legend.addTo(map);
+
+        //similar to above, we add a listener to the title so that, when clicked,
+        //it displays the text that we defined in the 'camas-info' div box
+        document.getElementById('title').addEventListener('click', function () {
+            const infoBox = document.getElementById('camas-info');
+            infoBox.style.display = (infoBox.style.display === 'block') ? 'none' : 'block';
+        });
+    </script>
+
+</body>
+</html>
